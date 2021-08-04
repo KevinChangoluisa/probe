@@ -19,20 +19,14 @@ const routes: Routes = [
         loadChildren: () => import('./pages/supervisor/supervisor.module').then(m => m.SupervisorPageModule)
       },
       {
-        path: 'encuestador',
-        children: [
-          {
-            path: '',
-            loadChildren: () => import('./pages/encuestador/encuestador.module').then(m => m.EncuestadorPageModule)
-          },
-          {
-            path: 'encuestas/:cedulas',
-            loadChildren: () => import('./pages/encuestas/encuestas.module').then(m => m.EncuestasPageModule)
-          }
-        ]
+        path: 'encuestador/:user',
+        loadChildren: () => import('./pages/encuestador/encuestador.module').then(m => m.EncuestadorPageModule)
       },
+      {
+        path: 'encuestas/:cedula',
+        loadChildren: () => import('./pages/encuestas/encuestas.module').then(m => m.EncuestasPageModule)
+      }
     ]
-
   },
   {
     path: '',

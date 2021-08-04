@@ -17,15 +17,21 @@ import * as moment from 'moment';
 export class EncuestasPage implements OnInit {
   @ViewChild(IonSlides, { static: true }) slides: IonSlides;
 
-  lngCel: number;
-  latCel: number;
+  lngCel: number = 0;
+  latCel: number = 0;
+  cedEnc: number = 0;
+  cedSup: number = 0;
+  fecha: string = "";
+  tiempototal: number = 0;
+
   preguntas: Observable<any>;
   invisible: boolean = false
   respuestas = []
+  envio = {};
   boton: boolean = false;
   timeA: any;
   timeB: any;
-
+  fn: string;
 
   slideOpts = {
     initialSlide: 0,
@@ -37,7 +43,7 @@ export class EncuestasPage implements OnInit {
     private dataService: DataService,
     private geolocation: Geolocation,
     private navCtrl: NavController,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -45,13 +51,14 @@ export class EncuestasPage implements OnInit {
     this.geolocation.getCurrentPosition().then((resp) => {
       this.lngCel = Number(resp.coords.longitude);
       this.latCel = Number(resp.coords.latitude);
-
-      this.respuestas.push(JSON.parse(this.route.snapshot.paramMap.get('cedulas')))
-      this.respuestas.push(moment().format('L'))
-      this.respuestas.push({ lat: this.latCel, lng: this.lngCel })
-
     })
 
+
+    var datos = JSON.parse(this.route.snapshot.paramMap.get('cedula'))
+    this.cedEnc = datos.cedulas.encCed
+    this.cedSup = datos.cedulas.encSup
+    this.fn = datos.fullname
+    this.fecha = moment().format('L')
     this.preguntas = this.dataService.getPreguntas();
     this.slides.lockSwipeToNext(true);
   }
@@ -65,11 +72,7 @@ export class EncuestasPage implements OnInit {
       this.slides.lockSwipeToPrev(true);
       this.slides.lockSwipeToNext(true);
       this.invisible = false;
-      this.respuestas.push(
-        [{
-          pregunta: pregunta,
-          respuesta: opcion
-        }])
+      this.respuestas.push(opcion)
 
       if (i == 10) {
         this.boton = true
@@ -82,10 +85,23 @@ export class EncuestasPage implements OnInit {
 
   almacenar() {
 
-
     var duration = this.timeB.diff(this.timeA, 'seconds')
-    this.respuestas.push({duracion: duration})
-    console.log(this.respuestas)
-    this.navCtrl.navigateForward('home/encuestador')
+    this.tiempototal = duration;
+    this.envio = {
+      'cedEnc': this.cedEnc,
+      'cedSup': this.cedSup,
+      'fecha': this.fecha,
+      'duracion': this.tiempototal,
+      'latitud': this.latCel,
+      'longitud': this.lngCel,
+      'respuestas': this.respuestas
+    }
+    this.dataService.postRespuestas(JSON.stringify(this.envio)).subscribe(data => {
+      console.log(data)
+    })
+
+    this.navCtrl.navigateForward(`/home/encuestador/${JSON.stringify({ fullname: this.fn, cedula: this.cedEnc })}`)
   }
+
+
 }

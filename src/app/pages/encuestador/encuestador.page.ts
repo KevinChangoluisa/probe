@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
+import { DataService } from '../../services/data.service';
 
 
 @Component({
@@ -12,37 +14,43 @@ export class EncuestadorPage implements OnInit {
 
   public nombreEncuestador: string = ""
   public nombreSupervisor: string = ""
-  public cedulaEncuestador: string = "1718123563"
+  public cedulaEncuestador: string = ""
   public cedulaSupervisor: string = "1718123321"
+
   public numEncuestasRealizadas: number;
-  public numEncuestasfaltantes: number;
+  public numEncuestasfaltantes: number = 100;
   public hoy: string;
-  cedulas = {
-    encCed: this.cedulaEncuestador,
-    encSup: this.cedulaSupervisor,
-  };
+  cedulas = {}
 
   constructor(
     private navCtrl: NavController,
+    private route: ActivatedRoute,
+    private dataService: DataService,
   ) { }
 
-
-
   ngOnInit() {
+    var req = JSON.parse(this.route.snapshot.paramMap.get('user'))
+    this.cedulaEncuestador = req['cedula']
+
+    this.nombreEncuestador = req['fullname']
     this.nombreSupervisor = "Pedro Supervisor"
-    this.nombreEncuestador = "Daniela encuestadora"
-    this.numEncuestasRealizadas = 10;
-    this.numEncuestasfaltantes = 80;
     this.hoy = moment().locale("es").format("LL");
 
-    console.log(this.hoy);
-
-
+    this.cedulas = {
+      encCed: this.cedulaEncuestador,
+      encSup: this.cedulaSupervisor,
+    };
+    var fecha = moment().format('L')
+    this.dataService.getTotalTrab(this.cedulaEncuestador, fecha).subscribe(data => {
+      this.numEncuestasRealizadas = data['total']
+      this.numEncuestasfaltantes = this.numEncuestasfaltantes - this.numEncuestasRealizadas
+    })
+    
   }
 
-  agregar() {
-    this.navCtrl.navigateForward(`/home/encuestador/encuestas/${JSON.stringify(this.cedulas)}`)
 
+  agregar() {
+    this.navCtrl.navigateForward(`/home/encuestas/${JSON.stringify({ fullname: this.nombreEncuestador, cedulas: this.cedulas })}`)
   }
 
 

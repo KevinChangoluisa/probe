@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
+import { DataService } from '../services/data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -12,17 +14,18 @@ export class HomePage {
   userPass: string = "";
   tipoIconoPass: string = "eye-outline";
   tipotextPass: string = "password";
+  role: any = ""
 
 
 
   constructor(
     public alertController: AlertController,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private dataService: DataService,
   ) { }
 
 
   showIconPass() {
-    console.log("Aplasto el boton")
     if (this.tipotextPass == "password") {
       this.tipotextPass = "text"
       this.tipoIconoPass = "eye-off-outline"
@@ -33,26 +36,34 @@ export class HomePage {
 
   }
 
+  user: Subscription;
   validar() {
     if (this.userCed.length == 10) {
       if (this.userPass.length >= 10) {
         // buscamos en la base de datos el rol y validamos usuario y contraseña
-        let role = 3;
-        if (this.userCed == '1718123563' && this.userPass == this.userCed && role == 3) {
-          switch (role) {
-            /*
-            case 1:
-              this.navCtrl.navigateForward('/home/administrador')
-              break;
-            case 2:
-              this.navCtrl.navigateForward('/home/supervisor')
-              break;
-              */
-            case 3:
-              this.navCtrl.navigateForward('/home/encuestador')
-              break;
+        this.user = this.dataService.getRol(this.userCed, this.userPass).subscribe(dato => {
+          this.role = dato;
+          if (this.role['role'] != 'null') {
+            switch (this.role['role']) {
+
+              case 'administrador':
+                this.navCtrl.navigateForward('/home/administrador')
+                break;
+              case 'supervisor':
+                this.navCtrl.navigateForward('/home/supervisor')
+                break;
+
+              case 'encuestador':
+                //this.navCtrl.navigateForward('/home/encuestador')
+                var fullname = this.role['nombre'] +" "+ this.role['apellido']
+                this.navCtrl.navigateForward(`/home/encuestador/${JSON.stringify({ fullname: fullname, cedula: this.userCed })}`)
+                break;
+            }
+          } else {
+            this.mensajesAlert("Usuario/Contraseña", "Incorrectos");
+
           }
-        }
+        })
 
       } else {
         this.mensajesAlert("Campo contraseña", "Ingrese de manera correcta su contraseña");
