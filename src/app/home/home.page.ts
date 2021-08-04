@@ -10,11 +10,11 @@ import { Subscription } from 'rxjs';
 })
 export class HomePage {
 
-  userCed: string = "";
-  userPass: string = "";
-  tipoIconoPass: string = "eye-outline";
-  tipotextPass: string = "password";
-  role: any = ""
+  userCed = '';
+  userPass = '';
+  tipoIconoPass = 'eye-outline';
+  tipotextPass = 'password';
+  role: any = '';
 
 
 
@@ -26,12 +26,12 @@ export class HomePage {
 
 
   showIconPass() {
-    if (this.tipotextPass == "password") {
-      this.tipotextPass = "text"
-      this.tipoIconoPass = "eye-off-outline"
+    if (this.tipotextPass == 'password') {
+      this.tipotextPass = 'text';
+      this.tipoIconoPass = 'eye-off-outline';
     } else {
-      this.tipotextPass = "password"
-      this.tipoIconoPass = "eye-outline"
+      this.tipotextPass = 'password';
+      this.tipoIconoPass = 'eye-outline';
     }
 
   }
@@ -43,33 +43,33 @@ export class HomePage {
         // buscamos en la base de datos el rol y validamos usuario y contraseña
         this.user = this.dataService.getRol(this.userCed, this.userPass).subscribe(dato => {
           this.role = dato;
-          if (this.role['role'] != 'null') {
-            switch (this.role['role']) {
+          if (this.role.role != 'null') {
+            switch (this.role.role) {
 
               case 'administrador':
-                this.navCtrl.navigateForward('/home/administrador')
+                this.navCtrl.navigateForward('/home/administrador');
                 break;
               case 'supervisor':
-                this.navCtrl.navigateForward('/home/supervisor')
+                this.navCtrl.navigateForward('/home/supervisor');
                 break;
 
               case 'encuestador':
                 //this.navCtrl.navigateForward('/home/encuestador')
-                var fullname = this.role['nombre'] +" "+ this.role['apellido']
-                this.navCtrl.navigateForward(`/home/encuestador/${JSON.stringify({ fullname: fullname, cedula: this.userCed })}`)
+                var fullname = this.role.nombre +' '+ this.role.apellido;
+                this.navCtrl.navigateForward(`/home/encuestador/${JSON.stringify({ fullname, cedula: this.userCed })}`);
                 break;
             }
           } else {
-            this.mensajesAlert("Usuario/Contraseña", "Incorrectos");
+            this.mensajesAlert('Usuario/Contraseña', 'Incorrectos');
 
           }
-        })
+        });
 
       } else {
-        this.mensajesAlert("Campo contraseña", "Ingrese de manera correcta su contraseña");
+        this.mensajesAlert('Campo contraseña', 'Ingrese de manera correcta su contraseña');
       }
     } else {
-      this.mensajesAlert("Campo cedula", "Ingrese los 10 dígitos de su cédula");
+      this.mensajesAlert('Campo cedula', 'Ingrese los 10 dígitos de su cédula');
     }
 
 

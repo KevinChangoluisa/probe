@@ -16,7 +16,7 @@ export class DataService {
   }
 
   postRespuestas(datos) {
-    return this.http.post('https://server.kchangoluisa.repl.co/query-example', datos)
+    return this.http.post('https://server.kchangoluisa.repl.co/query-example', datos);
   }
 
   getRol(cedula, password) {
@@ -26,8 +26,5 @@ export class DataService {
   getTotalTrab(cedula, fecha) {
     return this.http.get(`https://server.kchangoluisa.repl.co/obtenerTotTrab?cedula=${cedula}&fecha=${fecha}`);
   }
-
-
-
 
 }
