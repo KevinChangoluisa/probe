@@ -7,8 +7,7 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class DataService {
-  baseURL = 'https://server.kchangoluisa.repl.co';
-  baseURL2 = 'https://server-1.wilsonag.repl.co';
+  baseURL = 'https://server-1.kchangoluisa.repl.co';
 
   usuario: any = null;
 
@@ -21,12 +20,12 @@ export class DataService {
   }
 
   postRespuestas(datos) {
-    return this.http.post(`${this.baseURL2}/query-example`, datos);
+    return this.http.post(`${this.baseURL}/query-example`, datos);
   }
 
   getRol(cedula, password) {
     return this.http
-      .get(`${this.baseURL2}/obtenerRol?cedula=${cedula}&password=${password}`)
+      .get(`${this.baseURL}/obtenerRol?cedula=${cedula}&password=${password}`)
       .pipe(
         tap((resp) => {
           this.usuario = resp;
@@ -36,23 +35,23 @@ export class DataService {
 
   getTotalTrab(cedula, fecha) {
     return this.http.get(
-      `${this.baseURL2}/obtenerTotTrab?cedula=${cedula}&fecha=${fecha}`
+      `${this.baseURL}/obtenerTotTrab?cedula=${cedula}&fecha=${fecha}`
     );
   }
 
   getEncuestadores() {
-    return this.http.get(`${this.baseURL2}/usuarios/encuestador`);
+    return this.http.get(`${this.baseURL}/usuarios/encuestador`);
   }
 
   calificarRendimiento(datos) {
-    return this.http.post(`${this.baseURL2}/rendimiento`, datos);
+    return this.http.post(`${this.baseURL}/rendimiento`, datos);
   }
 
   getRendimiento(cedula) {
-    return this.http.get(`${this.baseURL2}/rendimiento/${cedula}`);
+    return this.http.get(`${this.baseURL}/rendimiento/${cedula}`);
   }
 
   enviarNumeroEncuestas(data) {
-    return this.http.post(`${this.baseURL2}/supervisor/encuestas`, data);
+    return this.http.post(`${this.baseURL}/supervisor/encuestas`, data);
   }
 }
