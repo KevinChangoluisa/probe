@@ -28,6 +28,17 @@ export class DataService {
   }
 
 
+  getEncuestadores() {
+    return this.http.get('https://server.kchangoluisa.co/usuarios/encuestador');
+  }
+
+  calificarRendimiento(datos) {
+    return this.http.post(`https://server.kchangoluisa.co/rendimiento`, datos);
+  }
+
+  getRendimiento(cedula) {
+    return this.http.get(`https://server.kchangoluisa.co/rendimiento/${cedula}`);
+  }
 
 
 }
