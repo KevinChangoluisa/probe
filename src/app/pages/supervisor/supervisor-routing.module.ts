@@ -7,6 +7,14 @@ const routes: Routes = [
   {
     path: '',
     component: SupervisorPage
+  },
+  {
+    path: 'numero-encuestas',
+    loadChildren: () => import('./numero-encuestas/numero-encuestas.module').then( m => m.NumeroEncuestasPageModule)
+  },
+  {
+    path: 'reporte',
+    loadChildren: () => import('./reporte/reporte.module').then( m => m.ReportePageModule)
   }
 ];
 
