@@ -16,28 +16,28 @@ export class DataService {
   }
 
   postRespuestas(datos) {
-    return this.http.post('https://server.kchangoluisa.repl.co/query-example', datos)
+    return this.http.post('https://server-1.kchangoluisa.repl.co/query-example', datos)
   }
 
   getRol(cedula, password) {
-    return this.http.get(`https://server.kchangoluisa.repl.co/obtenerRol?cedula=${cedula}&password=${password}`);
+    return this.http.get(`https://server-1.kchangoluisa.repl.co/obtenerRol?cedula=${cedula}&password=${password}`);
   }
 
   getTotalTrab(cedula, fecha) {
-    return this.http.get(`https://server.kchangoluisa.repl.co/obtenerTotTrab?cedula=${cedula}&fecha=${fecha}`);
+    return this.http.get(`https://server-1.kchangoluisa.repl.co/obtenerTotTrab?cedula=${cedula}&fecha=${fecha}`);
   }
 
 
   getEncuestadores() {
-    return this.http.get('https://server.kchangoluisa.co/usuarios/encuestador');
+    return this.http.get('https://server-1.kchangoluisa.repl.co/usuarios/encuestador');
   }
 
   calificarRendimiento(datos) {
-    return this.http.post(`https://server.kchangoluisa.co/rendimiento`, datos);
+    return this.http.post(`https://server-1.kchangoluisa.repl.co/rendimiento`, datos);
   }
 
   getRendimiento(cedula) {
-    return this.http.get(`https://server.kchangoluisa.co/rendimiento/${cedula}`);
+    return this.http.get(`https://server-1.kchangoluisa.repl.co/rendimiento/${cedula}`);
   }
 
 
