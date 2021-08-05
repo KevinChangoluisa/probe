@@ -14,7 +14,7 @@ export class NumeroEncuestasPage implements OnInit {
   total: number;
   faltante: number;
 
-  constructor(private router: Router, private route: ActivatedRoute, private dataService: DataService) { }
+  constructor(private router: Router, private route: ActivatedRoute, public dataService: DataService) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -37,7 +37,7 @@ export class NumeroEncuestasPage implements OnInit {
     };
 
     this.dataService.enviarNumeroEncuestas(postData).subscribe(resp => {
-      console.log(resp);
+      this.router.navigate(['home', 'supervisor', 'reporte']);
     });
   }
 
