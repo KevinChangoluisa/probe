@@ -3,6 +3,7 @@ import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { DataService } from '../../services/data.service';
+import { FirestorageService } from '../../services/firestorage.service';
 
 
 @Component({
@@ -20,12 +21,14 @@ export class EncuestadorPage implements OnInit {
   public numEncuestasRealizadas: number;
   public numEncuestasfaltantes: number = 100;
   public hoy: string;
+  foto: '';
   cedulas = {}
 
   constructor(
     private navCtrl: NavController,
     private route: ActivatedRoute,
     private dataService: DataService,
+    private firestorageService: FirestorageService,
   ) { }
 
   ngOnInit() {
@@ -33,6 +36,7 @@ export class EncuestadorPage implements OnInit {
     this.cedulaEncuestador = req['cedula']
 
     this.nombreEncuestador = req['fullname']
+
     this.nombreSupervisor = "Pedro Supervisor"
     this.hoy = moment().locale("es").format("LL");
 
@@ -45,12 +49,24 @@ export class EncuestadorPage implements OnInit {
       this.numEncuestasRealizadas = data['total']
       this.numEncuestasfaltantes = this.numEncuestasfaltantes - this.numEncuestasRealizadas
     })
-    
+
   }
 
 
   agregar() {
     this.navCtrl.navigateForward(`/home/encuestas/${JSON.stringify({ fullname: this.nombreEncuestador, cedulas: this.cedulas })}`)
+  }
+
+
+  async newImagenUpload(event: any) {
+
+    const path = 'usuarios'
+    const ced = '1111111111'
+    const file = event.target.files[0]
+    const res = await this.firestorageService.uploadImage(path, ced, file)
+    console.log(res);
+    
+
   }
 
 

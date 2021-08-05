@@ -1,13 +1,17 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
+<<<<<<< HEAD
     <ion-buttons slot="start">
       <ion-back-button defaultHref="home"></ion-back-button>
     </ion-buttons>
+=======
+>>>>>>> b7ed50286f45d610e0d64dc0797652121da73224
     <ion-title size="large" class="ion-text-center"> SUPERVISOR </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+<<<<<<< HEAD
   <ion-grid>
     <ion-row size="10">
       <ion-col>
@@ -92,6 +96,21 @@
   </ion-item> -->
 
   <!-- <ion-grid *ngIf="encuestador">
+=======
+  <ion-item>
+    <ion-label>Seleccione al encuestador</ion-label>
+    <ion-select
+      placeholder="Selecciona..."
+      (ionChange)="onSelectChange($event)"
+    >
+      <ion-select-option [value]="enc.id" *ngFor="let enc of listaEncuestadores">
+        {{enc.nombre}} {{enc.apellido}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-grid *ngIf="encuestador">
+>>>>>>> b7ed50286f45d610e0d64dc0797652121da73224
     <ion-row class="ion-align-items-center">
       <ion-col size="12" class="ion-text-center">
         <ion-label>Rendimiento Encuestador - {{ encuestador.nombre }} </ion-label>
@@ -122,5 +141,9 @@
         <ion-button (click)="submit()">Enviar</ion-button>
       </ion-col>
     </ion-row>
+<<<<<<< HEAD
   </ion-grid> -->
+=======
+  </ion-grid>
+>>>>>>> b7ed50286f45d610e0d64dc0797652121da73224
 </ion-content>

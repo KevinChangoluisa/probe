@@ -14,6 +14,7 @@
 
     <ion-card>
       <ion-card-header>
+
         <ion-card-subtitle>Encuestador</ion-card-subtitle>
         <ion-card-title>{{nombreEncuestador}}</ion-card-title>
       </ion-card-header>
@@ -54,6 +55,15 @@
     </ion-fab>
 
   </div>
+
+  <ion-buttons>
+    <ion-button>
+      <label for="file-upload">
+        <ion-icon slot="icon-only" name="images"></ion-icon>
+      </label>
+      <input (change)="newImagenUpload($event)" id="file-upload" style="display:none;" type="file" accept="imge/*">
+    </ion-button>
+  </ion-buttons>
 
 
 
